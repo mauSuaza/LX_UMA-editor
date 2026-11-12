@@ -113,7 +113,7 @@ class PatchBank {
     for (let i = 0; i < 4096; i++) {
       sum = sum + this.data[i];
     }
-    data[4102] = 128 - sum % 128;
+    data[4102] = (128 - sum % 128) % 128;  // LX_UMA: 0, not 128, when the sum is a multiple of 128
     data[4103] = 0xf7;
     return data;
   }
@@ -365,10 +365,26 @@ PatchBankApp.download = function(syx) {
       {type: syx ? 'application/x-sysex' : 'audio/wav'});
   let a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = this.bank.name + (syx ? '.syx' : '.wav');
+  a.download = (syx ? PatchBankApp.fileName() : this.bank.name) + (syx ? '.syx' : '.wav');
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
+}
+
+// LX_UMA: the module's card reader shows short names only (8 letters, digits, _ or -), so the file is named from
+// the name field, cut to that; the default is the bank's name
+PatchBankApp.shortName = function(name) {
+  let n = name.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 8);
+  return n.length ? n : 'BANK';
+}
+
+PatchBankApp.fileName = function() {
+  let field = document.getElementById('fileName');
+  let n = PatchBankApp.shortName(field && field.value ? field.value : this.bank.name);
+  if (field) {
+    field.value = n;
+  }
+  return n;
 }
 
 PatchBankApp.makeAudioSamples = function() {

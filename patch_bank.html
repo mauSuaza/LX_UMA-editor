@@ -44,7 +44,7 @@
       <h2>Save</h2>
       <progress id="progressBar" max="100" value="0" style="visibility: hidden;">0%</progress>
       <p>Saves your bank as a standard 32-voice DX7 <b>.syx</b> file (4,104 bytes).</p>
-      <p>For LX_UMA: copy it into the SD card's <b>DX7</b> folder, or a folder inside it (<code>DX7/PADS/</code>). The module lists the banks after its built-in A&ndash;G on the 6-op's bank setting.</p>
+      <p>For LX_UMA: copy it into the SD card's <b>DX7</b> folder, or a folder inside it (<code>DX7/PADS/</code>). The module lists the banks after its three built-in banks (A&ndash;C) on the 6-op's bank setting, as 1, 2, 3… in name order. A damaged file plays bank A.</p>
       <p><label for="fileName">File name</label> <input type="text" id="fileName" maxlength="8" size="10" placeholder="PADS1" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 8);"> <small>up to 8 letters or digits: the module shows short names only</small></p>
       <button type="button" onclick="PatchBankApp.download(true);">Download .syx</button>
     </div>

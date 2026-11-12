@@ -1,20 +1,22 @@
 <html>
 <head>
-  <title>Wave terrain editor</title>
+  <title>Wave terrain editor - LX_UMA</title>
+  <meta charset="utf-8">
   <link rel="stylesheet" href="style.css" >
   <script type="text/javascript" src="encoder.js"></script>
 </head>
 <body>
   <div id="menu">
     <ul>
-			<li><a href="patch_bank.html">FM Patch bank editor</a></li>
+			<li><a href="index.html">Home</a></li>
+			<li><a href="patch_bank.html">DX7 patch bank editor</a></li>
 			<li><a href="wavetable.html">Wavetable editor</a></li>
 			<li><a href="waveterrain.html">Wave terrain editor</a></li>
 		</ul>
   </div>
 	
   <div id="header">
-    <h1>Plaits wave terrain editor</h1>
+    <h1>Wave terrain editor for LX_UMA</h1>
   </div>
 
   <div id="page">
@@ -40,13 +42,11 @@
       </div>
     </div>
     <div id="transfer">
-      <h2>Data transfer</h2>
-      <button id="playStopButton" type="button" onclick="WaveTerrainApp.playStop();">Play</button>
-      <input type="range" min="0" max="1" value="1" step="0.01" oninput="WaveTerrainApp.setVolume(this);" />
-      <progress id="progressBar" max="100" value="0">0%</progress>
-      <p>This data must be played in Plaits' <b>TIMBRE</b> input, while the wave terrain model is selected.</p>
-      <p>This is <b>not</b> a full firmware update!</p>
-      <button type="button" onclick="WaveTerrainApp.download();">Download</button>
+      <h2>Save for UMA</h2>
+      <progress id="progressBar" max="100" value="0" style="visibility: hidden;">0%</progress>
+      <p>Saves <b>terrain.bin</b>: the 64 &times; 64 terrain as signed bytes (4,096 bytes), exactly as previewed here.</p>
+      <p>Copy it to the SD card, where the UMA manual says (wave terrain model, <code>ter</code>). It plays as an extra terrain after the eight built-in ones.</p>
+      <button type="button" onclick="WaveTerrainApp.downloadBin();">Download .bin</button>
     </div>
   </div>
 

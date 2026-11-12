@@ -364,6 +364,25 @@ WaveTerrainApp.download = function() {
   document.body.removeChild(a);
 }
 
+// LX_UMA: the terrain as raw signed bytes, the values shown in the preview (the .wav transfer stores
+// negative heights as 255 + z, a step lower than previewed).
+WaveTerrainApp.downloadBin = function() {
+  if (!this.terrain) {
+    return;
+  }
+  let data = new Int8Array(4096);
+  for (let i = 0; i < 4096; i++) {
+    data[i] = Math.max(-128, Math.min(127, Math.round(this.terrain[i])));
+  }
+  let blob = new Blob([data.buffer], {type: 'application/octet-stream'});
+  let a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'terrain.bin';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 WaveTerrainApp.displayProgress = function() {
   let transferSource = WaveTerrainApp.transferSource;
   let progressBar = document.getElementById('progressBar');

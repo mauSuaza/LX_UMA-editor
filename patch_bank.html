@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Patch bank editor</title>
+  <title>Patch bank editor - LX_UMA</title>
   <link rel="stylesheet" href="style.css" >
   <meta charset="UTF-8">  
   <script type="text/javascript" src="encoder.js"></script>
@@ -9,14 +9,15 @@
 <body>
   <div id="menu">
     <ul>
-			<li><a href="patch_bank.html">FM Patch bank editor</a></li>
+			<li><a href="index.html">Home</a></li>
+			<li><a href="patch_bank.html">DX7 patch bank editor</a></li>
 			<li><a href="wavetable.html">Wavetable editor</a></li>
 			<li><a href="waveterrain.html">Wave terrain editor</a></li>
 		</ul>
   </div>
 	
   <div id="header">
-    <h1>Plaits FM patch bank editor</h1>
+    <h1>DX7 patch bank editor for LX_UMA</h1>
   </div>
 
   <div id="page">
@@ -40,13 +41,9 @@
       <div id="trash" class="bankContainer"><p>🗑️ Drop patches here to remove them</p></div>
     </div>
     <div id="transfer" style="visibility: hidden;">
-      <h2>Data transfer</h2>
-      <button id="playStopButton" type="button" onclick="PatchBankApp.playStop();">Play</button>
-      <input id="volume" type="range" min="0" max="1" value="1" step="0.01" oninput="PatchBankApp.setVolume(this);" />
-      <progress id="progressBar" max="100" value="0">0%</progress>
-      <p>This data must be played in Plaits' <b>TIMBRE</b> input, while one of the three 6-op FM models is selected.</p>
-      <p>This is <b>not</b> a full firmware update!</p>
-      <button type="button" onclick="PatchBankApp.download(false);">Download</button>
+      <h2>Save</h2>
+      <progress id="progressBar" max="100" value="0" style="visibility: hidden;">0%</progress>
+      <p>Saves your bank as a standard 32-voice DX7 <b>.syx</b> file. LX_UMA plays its built-in DX7 banks today; loading <b>.syx</b> banks from the SD card is planned for a later version.</p>
       <button type="button" onclick="PatchBankApp.download(true);">Download .syx</button>
     </div>
   </div>

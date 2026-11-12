@@ -8,8 +8,8 @@ card.
 
 | Page | Saves | Used by |
 |---|---|---|
-| Wavetable editor | `wavetable.bin` (4,096 bytes: the 8 × 8 map, then 15 custom waves) | the wavetable model (`wav`), as bank D |
-| Wave terrain editor | `terrain.bin` (4,096 bytes: 64 × 64 signed bytes) | the wave terrain model (`ter`), as a 9th terrain |
+| Wavetable editor | a `.bin` (4,096 bytes: the 8 × 8 map, then 15 custom waves); imports Vital / Serum wavetables (15 frames, evenly spread) | the wavetable model (`wav`), as bank D, from the card's `WAVES/` |
+| Wave terrain editor | a `.bin` (4,096 bytes: 64 × 64 signed bytes) | the wave terrain model (`ter`), as a 9th terrain, from the card's `TERRAIN/` |
 | DX7 patch bank editor | a 32-voice DX7 `.syx` (name it with up to 8 letters or digits) | the 6-op (`dx7`), from the card's `DX7/` folder (LX_UMA 0.34 on) |
 
 Where to put the files on the card is in the LX_UMA manual.

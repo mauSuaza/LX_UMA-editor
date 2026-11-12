@@ -31,6 +31,14 @@
 				<h4>Load single cycle .wav files</h4>
 				<div><input id="phaseAlign" type="checkbox"><label for="phaseShift">Align all phases</label></div>
 	      <div><input type="file" id="wavFile" accept=".wav" onchange="WavetableApp.loadWAV(this);" multiple></div>
+				<h4>Import a Vital / Serum wavetable</h4>
+				<p><small>A .wav of many frames (2,048 samples each). 15 frames are taken, evenly spread through it, and laid out on the map so the knobs sweep through the table.</small></p>
+				<div><label for="spread">Sweep with</label> <select id="spread">
+					<option value="diagonal">tmb and mor together (diagonal)</option>
+					<option value="rows">mor (tmb fine-tunes)</option>
+				</select></div>
+	      <div><input type="file" id="tableFile" accept=".wav" onchange="WavetableApp.importTable(this);"></div>
+	      <div id="tableInfo">&nbsp;</div>
 			</div>
 			
 			<div class="editorPanel">

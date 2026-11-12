@@ -702,3 +702,77 @@ WavetableApp.fileName = function() {
   }
   return n;
 }
+
+// Import a multi-frame wavetable (Vital, Serum and others): frames of 2,048 samples, the size read from Serum's
+// 'clm ' chunk ("<!>2048 ...") when there is one. 15 frames, evenly spread, become the custom waves, and the map
+// lays them out so the knobs sweep through them.
+WavetableApp.frameSizeOf = function(data, numSamples) {
+  const riff = WavetableApp.parseRIFF(data);
+  if (riff) {
+    for (let chunk of riff.chunks) {
+      if (chunk.tag == 'clm ') {
+        const text = String.fromCharCode.apply(null, new Uint8Array(chunk.data.slice(0, 16)));
+        const m = text.match(/<!>(\d+)/);
+        if (m && parseInt(m[1]) > 0) {
+          return parseInt(m[1]);
+        }
+      }
+    }
+  }
+  return numSamples % 2048 == 0 ? 2048 : numSamples;
+}
+
+WavetableApp.spreadMap = function(mode) {
+  for (let x = 0; x < mapSize; x++) {
+    for (let y = 0; y < mapSize; y++) {
+      const position = mode == 'rows'
+          ? Math.round((y * mapSize + x) * (numCustomWaves - 1) / (mapSize * mapSize - 1))
+          : x + y;  // 0..14: one step per cell along either knob
+      this.map[x + y * mapSize] = 192 + Math.min(position, numCustomWaves - 1);
+    }
+  }
+  this.updateMap();
+}
+
+WavetableApp.importTable = function(element) {
+  const file = element.files[0];
+  if (!file) {
+    return;
+  }
+  const info = document.getElementById('tableInfo');
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const data = e.target.result;
+    const fmt = WavetableApp.parseWAVHeader(data);
+    if (!fmt) {
+      info.textContent = 'Not a .wav file this page can read.';
+      return;
+    }
+    const context = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(
+        fmt.numChannels, fmt.sampleRate, fmt.sampleRate);
+    context.decodeAudioData(data, function(audioBuffer) {
+      const samples = audioBuffer.getChannelData(0);
+      const frameSize = WavetableApp.frameSizeOf(data, samples.length);
+      const numFrames = Math.floor(samples.length / frameSize);
+      if (numFrames < 1) {
+        info.textContent = 'No complete frame in this file.';
+        return;
+      }
+      for (let wave = 0; wave < numCustomWaves; wave++) {
+        const frame = numFrames == 1 ? 0 : Math.round(wave * (numFrames - 1) / (numCustomWaves - 1));
+        WavetableApp.setWave(wave, samples.slice(frame * frameSize, (frame + 1) * frameSize));
+      }
+      WavetableApp.spreadMap(document.getElementById('spread').value);
+      const name = file.name.replace(/\.wav$/i, '');
+      const field = document.getElementById('fileName');
+      if (field && !field.value) {
+        field.value = name.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 8);
+      }
+      info.textContent = name + ': ' + numFrames + ' frames of ' + frameSize + ' samples; 15 taken, evenly spread.';
+      element.value = null;
+    }, function() {
+      info.textContent = 'This .wav could not be decoded.';
+    });
+  };
+  reader.readAsArrayBuffer(file);
+}

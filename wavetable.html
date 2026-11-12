@@ -58,8 +58,9 @@
     <div id="transfer">
       <h2>Save for UMA</h2>
       <progress id="progressBar" max="100" value="0" style="visibility: hidden;">0%</progress>
-      <p>Saves <b>wavetable.bin</b> (4,096 bytes): the 8 &times; 8 map, then your 15 custom waves.</p>
-      <p>Copy it to the SD card, where the UMA manual says (wavetable model, <code>wav</code>). It replaces bank D; banks A&ndash;C stay as on Plaits.</p>
+      <p>Saves a <b>.bin</b> file (4,096 bytes): the 8 &times; 8 map, then your 15 custom waves.</p>
+      <p>For LX_UMA: copy it into the SD card's <b>WAVES</b> folder (up to 32 files). On the wavetable model (<code>wav</code>), <code>fil</code> picks it: <code>bit</code> is the built-in tables, then 1, 2, 3&hellip; in name order. It replaces bank D, in the middle of <code>hrm</code>; banks A&ndash;C stay as on Plaits.</p>
+      <p><label for="fileName">File name</label> <input type="text" id="fileName" maxlength="8" size="10" placeholder="GLASS" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 8);"> <small>up to 8 letters or digits: the module shows short names only</small></p>
       <button type="button" onclick="WavetableApp.download(true);">Download .bin</button>
     </div>
   </div>

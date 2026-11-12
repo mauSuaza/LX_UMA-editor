@@ -44,8 +44,9 @@
     <div id="transfer">
       <h2>Save for UMA</h2>
       <progress id="progressBar" max="100" value="0" style="visibility: hidden;">0%</progress>
-      <p>Saves <b>terrain.bin</b>: the 64 &times; 64 terrain as signed bytes (4,096 bytes), exactly as previewed here.</p>
-      <p>Copy it to the SD card, where the UMA manual says (wave terrain model, <code>ter</code>). It plays as an extra terrain after the eight built-in ones.</p>
+      <p>Saves a <b>.bin</b> file: the 64 &times; 64 terrain as signed bytes (4,096 bytes), exactly as previewed here.</p>
+      <p>For LX_UMA: copy it into the SD card's <b>TERRAIN</b> folder (up to 32 files). On the wave terrain model (<code>ter</code>), <code>fil</code> picks it: <code>bit</code> is the built-in terrains, then 1, 2, 3&hellip; in name order. It plays as a 9th terrain at the top of <code>hrm</code>.</p>
+      <p><label for="fileName">File name</label> <input type="text" id="fileName" maxlength="8" size="10" placeholder="DUNES" oninput="this.value = this.value.toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 8);"> <small>up to 8 letters or digits: the module shows short names only</small></p>
       <button type="button" onclick="WaveTerrainApp.downloadBin();">Download .bin</button>
     </div>
   </div>

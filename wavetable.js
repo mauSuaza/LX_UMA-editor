@@ -665,7 +665,7 @@ WavetableApp.download = function(raw) {
       {type: raw ? 'application/octet-stream' : 'audio/wav'});
   let a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'wavetable' + (raw ? '.bin' : '.wav');
+  a.download = (raw ? WavetableApp.fileName() : 'wavetable') + (raw ? '.bin' : '.wav');
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -690,3 +690,15 @@ WavetableApp.displayProgress = function() {
 
 setInterval(WavetableApp.displayProgress, 500);
 WavetableApp.generateWavetable();
+
+WavetableApp.fileName = function() {
+  let field = document.getElementById('fileName');
+  let n = (field && field.value ? field.value : '').toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 8);
+  if (!n.length) {
+    n = 'WAVES';
+  }
+  if (field) {
+    field.value = n;
+  }
+  return n;
+}

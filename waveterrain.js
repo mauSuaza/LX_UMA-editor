@@ -377,7 +377,7 @@ WaveTerrainApp.downloadBin = function() {
   let blob = new Blob([data.buffer], {type: 'application/octet-stream'});
   let a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = 'terrain.bin';
+  a.download = WaveTerrainApp.fileName() + '.bin';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
@@ -403,3 +403,15 @@ WaveTerrainApp.displayProgress = function() {
 setInterval(WaveTerrainApp.displayProgress, 500);
 
 WaveTerrainApp.generate();
+
+WaveTerrainApp.fileName = function() {
+  let field = document.getElementById('fileName');
+  let n = (field && field.value ? field.value : '').toUpperCase().replace(/[^A-Z0-9_-]/g, '').slice(0, 8);
+  if (!n.length) {
+    n = 'TERRAIN';
+  }
+  if (field) {
+    field.value = n;
+  }
+  return n;
+}
